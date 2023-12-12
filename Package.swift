@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-	name: "QRCode",
+	name: "QRCodeLibrary",
 	platforms: [
 		.macOS(.v10_13),
 		.iOS(.v13),
@@ -12,12 +12,12 @@ let package = Package(
 	],
 	products: [
 		// QR Code generation library
-		.library(name: "QRCode", targets: ["QRCode"]),
-		.library(name: "QRCodeStatic", type: .static, targets: ["QRCode"]),
-		.library(name: "QRCodeDynamic", type: .dynamic, targets: ["QRCode"]),
+		.library(name: "QRCodeLibrary", targets: ["QRCodeLibrary"]),
+		.library(name: "QRCodeStatic", type: .static, targets: ["QRCodeLibrary"]),
+		.library(name: "QRCodeDynamic", type: .dynamic, targets: ["QRCodeLibrary"]),
 
 		// QR Code video detection library
-		.library(name: "QRCodeDetector", type: .dynamic, targets: ["QRCodeDetector"]),
+		.library(name: "QRCodeDetector", type: .dynamic, targets: ["QRCodeDetector"])
 	],
 	dependencies: [
 		// Swift argument parser is used for the command-line application
@@ -42,13 +42,13 @@ let package = Package(
 	targets: [
 		// The QRCode core library
 		.target(
-			name: "QRCode",
+			name: "QRCodeLibrary",
 			dependencies: [
 				"SwiftImageReadWrite",
 				.product(
 					name: "QRCodeGenerator",
 					package: "swift-qrcode-generator"
-				),
+				)
 			]
 		),
 
@@ -59,17 +59,17 @@ let package = Package(
 		.executableTarget(
 			name: "qrcodegen",
 			dependencies: [
-				"QRCode",
-				.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				"QRCodeLibrary",
+				.product(name: "ArgumentParser", package: "swift-argument-parser")
 			]),
 
 		// testing target
 		.testTarget(
 			name: "QRCodeTests",
-			dependencies: ["QRCode"],
+			dependencies: ["QRCodeLibrary"],
 			resources: [
-				.process("Resources"),
+				.process("Resources")
 			]
-		),
+		)
 	]
 )
